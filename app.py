@@ -1,6 +1,8 @@
 import os
 from data_models import db, Author, Book
 from flask import Flask, render_template, request
+from flask.typing import ResponseReturnValue
+
 from datetime import date
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -16,13 +18,17 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+
 @app.route("/")
-def index():
+def index() -> ResponseReturnValue:
+    """Display the homepage, shows all books in the library."""
     books = Book.query.all()
     return render_template("home.html", books=books)
 
+
 @app.route("/add_author", methods=["GET", "POST"])
-def add_author():
+def add_author() -> ResponseReturnValue:
+    """Display the author form or save a submitted author."""
     if request.method == "GET":
         return render_template("add_author.html")
     name = request.form["name"]
@@ -41,7 +47,8 @@ def add_author():
 
 
 @app.route("/add_book", methods=["GET", "POST"])
-def add_book():
+def add_book() -> ResponseReturnValue:
+    """Display the book form or save a submitted book."""
     if request.method == "GET":
         authors = Author.query.all()
         return render_template("add_book.html", authors=authors)
