@@ -54,7 +54,8 @@ def add_book() -> ResponseReturnValue:
         return render_template("add_book.html", authors=authors)
     title = request.form["title"]
     isbn = request.form["isbn"]
-    publication_year = int(request.form["publication_year"])
+    publication_text = request.form["publication_year"]
+    publication_year = int(publication_text) if publication_text else None
     author_id = int(request.form["author_id"])
     author = db.session.get(Author, author_id)
     if author is None:

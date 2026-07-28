@@ -14,10 +14,10 @@ class Author(db.Model):
 
     books = db.relationship("Book", back_populates="author")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.name
 
-    def __repr__(self):
+    def __repr__(self) -> str:
         return f"ID: {self.id}, Name: {self.name}, Birth: {self.birth_date}, Death: {self.date_of_death}"
 
 
@@ -33,8 +33,8 @@ class Book(db.Model):
 
     author = db.relationship("Author", back_populates="books")
 
-    def __str__(self):
+    def __str__(self) -> str:
         return self.title
 
-    def __repr__(self):
-        return f"ID: {self.id}, Title: {self.title}, "
+    def __repr__(self) -> str:
+        return f"ID: {self.id}, Title: {self.title}"
