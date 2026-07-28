@@ -16,6 +16,9 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
+@app.route("/")
+def index():
+    return render_template("home.html")
 
 @app.route("/add_author", methods=["GET", "POST"])
 def add_author():
@@ -36,9 +39,30 @@ def add_author():
     return render_template("add_author.html", message="Author added successfully")
 
 
-"""@app.route("/add_book")
+@app.route("/add_book", methods=["GET", "POST"])
 def add_book():
-    return render_template("add_book.html")"""
+    if request.method == "GET":
+        authors = Author.query.all()
+        return render_template("add_book.html", authors=authors)
+    title = request.form["title"]
+    isbn = request.form["isbn"]
+    publication_year = int(request.form["publication_year"])
+    author_id = int(request.form["author_id"])
+    author = db.session.get(Author, author_id)
+    if author is None:
+        return "Author does not exist", 400
+
+    book = Book(
+        title=title,
+        isbn=isbn,
+        publication_year=publication_year,
+        author=author
+    )
+
+    db.session.add(book)
+    db.session.commit()
+    return render_template("add_book.html", message="Book added successfully")
+
 
 if __name__ == "__main__":
     app.run(debug=True)
