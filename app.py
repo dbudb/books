@@ -21,9 +21,23 @@ with app.app_context():
 
 @app.route("/")
 def index() -> ResponseReturnValue:
-    """Display the homepage, shows all books in the library."""
-    books = Book.query.all()
-    return render_template("home.html", books=books)
+    """Display books using the selected title or author ordering."""
+    sort_by = request.args.get("sort", "title_asc")
+
+    if sort_by == "title_desc":
+        books = Book.query.order_by(Book.title.desc()).all()
+    elif sort_by == "author_asc":
+        books = Book.query.join(Author).order_by(Author.name, Book.title).all()
+    elif sort_by == "author_desc":
+        books = Book.query.join(Author).order_by(
+            Author.name.desc(),
+            Book.title,
+        ).all()
+    else:
+        sort_by = "title_asc"
+        books = Book.query.order_by(Book.title).all()
+
+    return render_template("home.html", books=books, current_sort=sort_by)
 
 
 @app.route("/add_author", methods=["GET", "POST"])

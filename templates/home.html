@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  </head>
-  <body>
+    <title>Book Alchemy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="site-header">
+    <h1>Book Alchemy</h1>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="{{ url_for('index') }}">Library</a>
+        <a href="{{ url_for('add_author') }}">Add author</a>
+        <a href="{{ url_for('add_book') }}">Add book</a>
+    </nav>
+</header>
 
+<form class="sort-controls" action="{{ url_for('index') }}" method="GET">
+    <label for="sort">Sort books by</label>
+    <select id="sort" name="sort">
+        <option value="title_asc" {% if current_sort == "title_asc" %}selected{% endif %}>Title A–Z</option>
+        <option value="title_desc" {% if current_sort == "title_desc" %}selected{% endif %}>Title Z–A</option>
+        <option value="author_asc" {% if current_sort == "author_asc" %}selected{% endif %}>Author A–Z</option>
+        <option value="author_desc" {% if current_sort == "author_desc" %}selected{% endif %}>Author Z–A</option>
+    </select>
+    <button class="button" type="submit">Sort</button>
+</form>
+
+{% if books %}
+<main class="book-grid">
     {% for book in books %}
-    <div>
-    <img
-        src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
-        alt="Cover of {{ book.title }}"
-    >
-    <h3>{{ book.title }} — {{ book.author.name }}</h3>
-</div>
+    <article class="book-card">
+        <img
+            class="book-cover"
+            src="https://covers.openlibrary.org/b/isbn/{{ book.isbn }}-M.jpg"
+            alt="Cover of {{ book.title }}"
+            loading="lazy"
+        >
+        <h2 class="book-title">{{ book.title }}</h2>
+        <p class="book-author">{{ book.author.name }}</p>
+        {% if book.publication_year %}
+        <p class="book-year">{{ book.publication_year }}</p>
+        {% endif %}
+    </article>
     {% endfor %}
-
-  </body>
+</main>
+{% else %}
+<p class="empty-state">No books in the library yet.</p>
+{% endif %}
+</body>
 </html>

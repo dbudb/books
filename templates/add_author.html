@@ -3,23 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Add author · Book Alchemy</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+<header class="site-header">
+    <h1>Book Alchemy</h1>
+    <nav class="site-nav" aria-label="Main navigation">
+        <a href="{{ url_for('index') }}">Library</a>
+        <a href="{{ url_for('add_author') }}">Add author</a>
+        <a href="{{ url_for('add_book') }}">Add book</a>
+    </nav>
+</header>
 
-{% if message %}
-<p>{{ message }}</p>
-{% else %}
-<form action="/add_author" method="POST">
-    <label for="name">Author Name:</label>
-    <input type="text" id="name" name="name" required><br><br>
-
-    <label for="birthdate">Birthdate:</label>
-    <input type="date" id="birthdate" name="birthdate" required><br><br>
-    <label for="date_of_death">Date of Death:</label>
-    <input type="date" id="date_of_death" name="date_of_death"><br><br>
-    <input type="submit" value="Add Author">
-</form>
-{% endif %}
+<main class="form-page">
+    <section class="panel">
+        {% if message %}
+        <p class="success">{{ message }}</p>
+        <a class="button" href="{{ url_for('add_author') }}">Add another author</a>
+        {% else %}
+        <h2>Add author</h2>
+        <form action="{{ url_for('add_author') }}" method="POST">
+            <div class="field">
+                <label for="name">Author name</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="field">
+                <label for="birthdate">Birthdate</label>
+                <input type="date" id="birthdate" name="birthdate" required>
+            </div>
+            <div class="field">
+                <label for="date_of_death">Date of death</label>
+                <input type="date" id="date_of_death" name="date_of_death">
+            </div>
+            <button class="button" type="submit">Add author</button>
+        </form>
+        {% endif %}
+    </section>
+</main>
 </body>
 </html>
