@@ -18,7 +18,8 @@ with app.app_context():
 
 @app.route("/")
 def index():
-    return render_template("home.html")
+    books = Book.query.all()
+    return render_template("home.html", books=books)
 
 @app.route("/add_author", methods=["GET", "POST"])
 def add_author():
