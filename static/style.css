@@ -1,0 +1,214 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f4f6f3;
+  color: #17211b;
+  font-family: Monaco, "Courier New", monospace;
+}
+
+a {
+  color: inherit;
+}
+
+.site-header {
+  padding: 26px 20px 22px;
+  background: linear-gradient(135deg, #007f43, #00a75a);
+  color: white;
+  text-align: center;
+  box-shadow: 0 3px 14px rgba(0, 74, 39, 0.2);
+}
+
+.site-header h1 {
+  margin: 0 0 14px;
+  font-size: clamp(1.65rem, 4vw, 2.5rem);
+}
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+  font-size: 0.86rem;
+}
+
+.site-nav a {
+  color: white;
+  text-decoration: none;
+}
+
+.site-nav a:hover,
+.site-nav a:focus-visible {
+  text-decoration: underline;
+}
+
+.book-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+  gap: 24px 20px;
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding: 36px clamp(18px, 4vw, 48px) 56px;
+}
+
+.book-card {
+  padding: 10px 10px 14px;
+  border: 1px solid #dfe6e1;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 3px 10px rgba(30, 55, 40, 0.08);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+
+.book-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 9px 22px rgba(30, 55, 40, 0.15);
+}
+
+.book-cover {
+  display: block;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  border-radius: 5px;
+  object-fit: cover;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.18);
+}
+
+.book-title {
+  margin: 12px 0 5px;
+  overflow-wrap: anywhere;
+  font-size: 0.85rem;
+  line-height: 1.35;
+  text-align: center;
+}
+
+.book-author,
+.book-year {
+  margin: 4px 0 0;
+  color: #68746c;
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.empty-state {
+  padding: 48px 20px;
+  color: #68746c;
+  text-align: center;
+}
+
+.sort-controls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  width: min(100%, 1500px);
+  margin: 0 auto;
+  padding: 26px clamp(18px, 4vw, 48px) 0;
+  font-size: 0.82rem;
+}
+
+.sort-controls select {
+  padding: 9px 34px 9px 10px;
+  border: 1px solid #bdc9c1;
+  border-radius: 5px;
+  background: white;
+  color: #17211b;
+  font: inherit;
+}
+
+.form-page {
+  width: min(100% - 32px, 560px);
+  margin: 42px auto;
+}
+
+.panel {
+  padding: 28px;
+  border: 1px solid #dfe6e1;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 0 6px 20px rgba(30, 55, 40, 0.1);
+}
+
+.panel h2 {
+  margin: 0 0 22px;
+}
+
+.field {
+  margin-bottom: 17px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 7px;
+  font-size: 0.82rem;
+  font-weight: bold;
+}
+
+.field input,
+.field select {
+  width: 100%;
+  padding: 10px 11px;
+  border: 1px solid #bdc9c1;
+  border-radius: 5px;
+  background: white;
+  color: #17211b;
+  font: inherit;
+}
+
+.field input:focus,
+.field select:focus {
+  border-color: #00a75a;
+  outline: 2px solid rgba(0, 167, 90, 0.18);
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 16px;
+  border: 0;
+  border-radius: 5px;
+  background: #007f43;
+  color: white;
+  font: inherit;
+  font-weight: bold;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.button:hover,
+.button:focus-visible {
+  background: #006936;
+}
+
+.success {
+  margin: 0 0 20px;
+  color: #006936;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .sort-controls {
+    justify-content: center;
+    padding-top: 18px;
+  }
+
+  .book-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px 10px;
+    padding: 20px 10px 36px;
+  }
+
+  .book-card {
+    padding: 7px 7px 11px;
+  }
+
+  .panel {
+    padding: 22px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .book-card {
+    transition: none;
+  }
+}
