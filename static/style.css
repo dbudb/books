@@ -91,6 +91,39 @@ a {
   text-align: center;
 }
 
+.delete-form {
+  margin-top: 12px;
+  text-align: center;
+}
+
+.delete-button {
+  padding: 7px 10px;
+  border: 1px solid #c96c63;
+  border-radius: 5px;
+  background: white;
+  color: #9e3026;
+  font: inherit;
+  font-size: 0.72rem;
+  cursor: pointer;
+}
+
+.delete-button:hover,
+.delete-button:focus-visible {
+  background: #fff0ee;
+}
+
+.flash-message {
+  width: min(100% - 36px, 700px);
+  margin: 24px auto 0;
+  padding: 12px 16px;
+  border: 1px solid #9acaae;
+  border-radius: 6px;
+  background: #e9f7ee;
+  color: #006936;
+  font-weight: bold;
+  text-align: center;
+}
+
 .empty-state {
   padding: 48px 20px;
   color: #68746c;

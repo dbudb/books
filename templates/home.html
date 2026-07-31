@@ -16,6 +16,12 @@
     </nav>
 </header>
 
+{% with messages = get_flashed_messages() %}
+    {% for message in messages %}
+    <p class="flash-message">{{ message }}</p>
+    {% endfor %}
+{% endwith %}
+
 <form class="sort-controls" action="{{ url_for('index') }}" method="GET">
     <label for="q">Search</label>
     <input
@@ -53,6 +59,14 @@
         {% if book.publication_year %}
         <p class="book-year">{{ book.publication_year }}</p>
         {% endif %}
+        <form
+            class="delete-form"
+            action="{{ url_for('delete_book', book_id=book.id) }}"
+            method="POST"
+            onsubmit="return confirm('Delete this book?');"
+        >
+            <button class="delete-button" type="submit">Delete book</button>
+        </form>
     </article>
     {% endfor %}
 </main>

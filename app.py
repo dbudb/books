@@ -1,6 +1,6 @@
 import os
 from data_models import db, Author, Book
-from flask import Flask, render_template, request
+from flask import Flask, flash, redirect, render_template, request, url_for
 from flask.typing import ResponseReturnValue
 
 from datetime import date
@@ -9,8 +9,13 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = (
-    f"sqlite:///{os.path.join(basedir, 'data', 'library.sqlite')}"
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URI",
+    f"sqlite:///{os.path.join(basedir, 'data', 'library.sqlite')}",
+)
+app.config["SECRET_KEY"] = os.environ.get(
+    "SECRET_KEY",
+    "book-alchemy-local-secret",
 )
 
 db.init_app(app)
@@ -96,6 +101,29 @@ def add_book() -> ResponseReturnValue:
     db.session.add(book)
     db.session.commit()
     return render_template("add_book.html", message="Book added successfully")
+
+
+@app.route("/book/<int:book_id>/delete", methods=["POST"])
+def delete_book(book_id: int) -> ResponseReturnValue:
+    """Delete a book and its author when the author has no other books."""
+    book = db.session.get(Book, book_id)
+    if book is None:
+        return "Book does not exist", 404
+
+    author = book.author
+    title = book.title
+    author_has_other_books = Book.query.filter(
+        Book.author_id == author.id,
+        Book.id != book.id,
+    ).first() is not None
+
+    db.session.delete(book)
+    if not author_has_other_books:
+        db.session.delete(author)
+
+    db.session.commit()
+    flash(f'"{title}" deleted successfully.')
+    return redirect(url_for("index"))
 
 
 if __name__ == "__main__":

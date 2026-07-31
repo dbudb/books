@@ -7,7 +7,6 @@ from urllib.request import Request, urlopen
 from app import app
 from data_models import Author, Book, db
 
-
 TARGET_BOOKS = 100
 SEARCH_URL = "https://openlibrary.org/search.json"
 
@@ -56,11 +55,11 @@ def seed() -> None:
             title = document.get("title")
 
             if (
-                not title
-                or not author_names
-                or not isbn
-                or not document.get("cover_i")
-                or isbn in known_isbns
+                    not title
+                    or not author_names
+                    or not isbn
+                    or not document.get("cover_i")
+                    or isbn in known_isbns
             ):
                 continue
 
