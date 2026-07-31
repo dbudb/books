@@ -21,23 +21,34 @@ with app.app_context():
 
 @app.route("/")
 def index() -> ResponseReturnValue:
-    """Display books using the selected title or author ordering."""
+    """Display books matching the search and sorting choices."""
+    search_term = request.args.get("q", "").strip()
     sort_by = request.args.get("sort", "title_asc")
+    query = Book.query
+
+    if search_term:
+        query = query.filter(Book.title.ilike(f"%{search_term}%"))
 
     if sort_by == "title_desc":
-        books = Book.query.order_by(Book.title.desc()).all()
+        query = query.order_by(Book.title.desc())
     elif sort_by == "author_asc":
-        books = Book.query.join(Author).order_by(Author.name, Book.title).all()
+        query = query.join(Author).order_by(Author.name, Book.title)
     elif sort_by == "author_desc":
-        books = Book.query.join(Author).order_by(
+        query = query.join(Author).order_by(
             Author.name.desc(),
             Book.title,
-        ).all()
+        )
     else:
         sort_by = "title_asc"
-        books = Book.query.order_by(Book.title).all()
+        query = query.order_by(Book.title)
 
-    return render_template("home.html", books=books, current_sort=sort_by)
+    books = query.all()
+    return render_template(
+        "home.html",
+        books=books,
+        current_sort=sort_by,
+        search_term=search_term,
+    )
 
 
 @app.route("/add_author", methods=["GET", "POST"])

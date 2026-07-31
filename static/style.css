@@ -108,6 +108,7 @@ a {
   font-size: 0.82rem;
 }
 
+.sort-controls input,
 .sort-controls select {
   padding: 9px 34px 9px 10px;
   border: 1px solid #bdc9c1;
@@ -115,6 +116,16 @@ a {
   background: white;
   color: #17211b;
   font: inherit;
+}
+
+.sort-controls input {
+  width: min(260px, 30vw);
+  padding-right: 10px;
+}
+
+.clear-search {
+  color: #52705e;
+  font-weight: bold;
 }
 
 .form-page {
@@ -188,8 +199,13 @@ a {
 
 @media (max-width: 480px) {
   .sort-controls {
+    flex-wrap: wrap;
     justify-content: center;
     padding-top: 18px;
+  }
+
+  .sort-controls input {
+    width: 100%;
   }
 
   .book-grid {

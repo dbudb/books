@@ -17,6 +17,14 @@
 </header>
 
 <form class="sort-controls" action="{{ url_for('index') }}" method="GET">
+    <label for="q">Search</label>
+    <input
+        type="search"
+        id="q"
+        name="q"
+        value="{{ search_term }}"
+        placeholder="Book title"
+    >
     <label for="sort">Sort books by</label>
     <select id="sort" name="sort">
         <option value="title_asc" {% if current_sort == "title_asc" %}selected{% endif %}>Title A–Z</option>
@@ -24,7 +32,10 @@
         <option value="author_asc" {% if current_sort == "author_asc" %}selected{% endif %}>Author A–Z</option>
         <option value="author_desc" {% if current_sort == "author_desc" %}selected{% endif %}>Author Z–A</option>
     </select>
-    <button class="button" type="submit">Sort</button>
+    <button class="button" type="submit">Search</button>
+    {% if search_term %}
+    <a class="clear-search" href="{{ url_for('index', sort=current_sort) }}">Clear</a>
+    {% endif %}
 </form>
 
 {% if books %}
@@ -46,7 +57,11 @@
     {% endfor %}
 </main>
 {% else %}
+{% if search_term %}
+<p class="empty-state">No books matched “{{ search_term }}”.</p>
+{% else %}
 <p class="empty-state">No books in the library yet.</p>
+{% endif %}
 {% endif %}
 </body>
 </html>
